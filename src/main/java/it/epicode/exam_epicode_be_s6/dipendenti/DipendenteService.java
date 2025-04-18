@@ -1,6 +1,8 @@
 package it.epicode.exam_epicode_be_s6.dipendenti;
 
 import it.epicode.exam_epicode_be_s6.cloudinary.CloudinaryService;
+import it.epicode.exam_epicode_be_s6.exceptions.DuplicateUsernameException;
+import it.epicode.exam_epicode_be_s6.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,11 @@ public class DipendenteService {
     private CloudinaryService cloudinaryService;
 
     public Dipendente save(Dipendente dipendente) {
+        if (dipendenteRepository.existsByUsername(dipendente.getUsername())) {
+            throw new DuplicateUsernameException("Lo username '" + dipendente.getUsername() + "' è già in uso.");
+        } else if (dipendenteRepository.existsByEmail(dipendente.getEmail())) {
+            throw new DuplicateUsernameException("L'email '" + dipendente.getEmail() + "' è già in uso.");
+        }
         return dipendenteRepository.save(dipendente);
     }
     public Page<Dipendente> findAllPaged(PageRequest pageable) {
@@ -30,7 +37,7 @@ public class DipendenteService {
     }
 
     public Dipendente findById(Long id) {
-        return dipendenteRepository.findById(id).orElse(null);
+        return dipendenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "Dipendente"));
     }
 
     public Dipendente findByUsername(String username) {

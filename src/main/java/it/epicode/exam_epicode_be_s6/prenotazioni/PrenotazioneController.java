@@ -6,9 +6,7 @@ import it.epicode.exam_epicode_be_s6.viaggi.Viaggio;
 import it.epicode.exam_epicode_be_s6.viaggi.ViaggioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PrenotazioneController {
@@ -31,4 +29,23 @@ public class PrenotazioneController {
 
         return prenotazioneService.save(p);
     }
+
+    @GetMapping("/prenotazioni")
+    public Iterable<Prenotazione> getAll() {
+        return prenotazioneService.findAll();
+    }
+
+    @GetMapping("/prenotazioni/{id}")
+    public Prenotazione getById(@RequestBody Long id) {
+        return prenotazioneService.findById(id);
+    }
+    @PutMapping
+    public Prenotazione update(@RequestBody Prenotazione prenotazione) {
+        return prenotazioneService.save(prenotazione);
+    }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        prenotazioneService.delete(id);
+    }
+
 }
