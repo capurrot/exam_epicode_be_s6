@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/viaggi")
@@ -34,11 +33,11 @@ public class ViaggioController {
     }
     @GetMapping("/{id}")
     public Viaggio getViaggioById(@PathVariable Long id) {
-        return viaggioService.findViaggioById(id);
+        return viaggioService.findById(id);
     }
     @PutMapping("/{id}")
     public Viaggio updateViaggio(@PathVariable Long id, @RequestBody @Valid Viaggio updatedViaggio) {
-        Viaggio existing = viaggioService.findViaggioById(id);
+        Viaggio existing = viaggioService.findById(id);
         if (existing != null) {
             existing.setDestinazione(updatedViaggio.getDestinazione());
             existing.setStato(updatedViaggio.getStato());
@@ -53,7 +52,7 @@ public class ViaggioController {
     }
     @PatchMapping("/{id}")
     public Viaggio updateStatoViaggio(@PathVariable Long id, @RequestBody @Valid Viaggio updatedViaggio) {
-        Viaggio existing = viaggioService.findViaggioById(id);
+        Viaggio existing = viaggioService.findById(id);
         if (existing != null) {
             existing.setStato(updatedViaggio.getStato());
             viaggioService.save(existing);

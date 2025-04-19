@@ -36,14 +36,17 @@ public class PrenotazioneController {
     }
 
     @GetMapping("/prenotazioni/{id}")
-    public Prenotazione getById(@RequestBody Long id) {
+    public Prenotazione getById(@PathVariable Long id) {
         return prenotazioneService.findById(id);
     }
-    @PutMapping
-    public Prenotazione update(@RequestBody Prenotazione prenotazione) {
+    @PutMapping("/prenotazioni/{id}")
+    public Prenotazione update(@PathVariable Long id, @RequestBody @Valid PrenotazioneRequest request) {
+        Prenotazione prenotazione = prenotazioneService.findById(id);
+        prenotazione.setDataPrenotazione(request.getDataPrenotazione());
+        prenotazione.setNote(request.getNote());
         return prenotazioneService.save(prenotazione);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/prenotazioni/{id}")
     public void delete(@PathVariable Long id) {
         prenotazioneService.delete(id);
     }

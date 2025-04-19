@@ -17,7 +17,7 @@ public class ViaggioService {
         this.viaggioRepository = viaggioRepository;
     }
 
-    public Object save(Viaggio viaggio) {
+    public Viaggio save(Viaggio viaggio) {
         return viaggioRepository.save(viaggio);
     }
 
@@ -27,10 +27,6 @@ public class ViaggioService {
 
     public void delete(Long id) {
         viaggioRepository.deleteById(id);
-    }
-
-    public Viaggio findViaggioById(Long id) {
-        return viaggioRepository.findById(id).orElse(null);
     }
 
     public Viaggio findById(Long idViaggio) {
